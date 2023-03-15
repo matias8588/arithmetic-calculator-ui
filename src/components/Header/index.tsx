@@ -1,32 +1,20 @@
-import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import React from "react";
 
-interface IHeader {
-  heading: string;
-  paragraph?: string;
-  linkName?: string;
-  linkUrl?: string;
-}
+type HeaderProps = {
+  onSignOut: () => void;
+};
 
-const Header = ({ heading, paragraph, linkName, linkUrl = "#" }: IHeader) => {
+const Header: React.FC<HeaderProps> = ({ onSignOut }) => {
   return (
-    <div className="mb-10">
-      <div className="flex justify-center">
-        <img alt="" className="h-14 w-14" src={logo} />
-      </div>
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-sky-900">
-        {heading}
-      </h2>
-      <p className="text-center text-sm text-sky-600 mt-5">
-        {paragraph}{" "}
-        <Link
-          to={linkUrl}
-          className="font-medium text-sky-600 hover:text-sky-500"
-        >
-          {linkName}
-        </Link>
-      </p>
-    </div>
+    <header className="bg-sky-500 p-4 flex justify-between items-center">
+      <h1 className="text-white text-xl font-bold">Calculator App</h1>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        onClick={onSignOut}
+      >
+        Sign Out
+      </button>
+    </header>
   );
 };
 
