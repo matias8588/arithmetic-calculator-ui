@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
-interface IHeader {
+interface IFormHeader {
   heading: string;
   paragraph?: string;
   linkName?: string;
   linkUrl?: string;
 }
 
-const Header = ({ heading, paragraph, linkName, linkUrl = "#" }: IHeader) => {
+const FormHeader = ({
+  heading,
+  paragraph,
+  linkName,
+  linkUrl = "#",
+}: IFormHeader) => {
   return (
     <div className="mb-10">
       <div className="flex justify-center">
@@ -30,4 +35,4 @@ const Header = ({ heading, paragraph, linkName, linkUrl = "#" }: IHeader) => {
   );
 };
 
-export default Header;
+export default FormHeader;
