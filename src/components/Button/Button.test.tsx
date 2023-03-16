@@ -35,7 +35,7 @@ describe("PageButton", () => {
     expect(button).toHaveClass("px-2");
     expect(button).toHaveClass("py-2");
     expect(button).not.toHaveClass("px-4");
-    expect(button).not.toHaveClass("py-2");
+    expect(button).not.toHaveClass("py-8");
   });
 
   it("calls a function when clicked", () => {

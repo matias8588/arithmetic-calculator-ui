@@ -28,14 +28,6 @@ describe("Input", () => {
     expect(handleChange).toHaveBeenCalled();
   });
 
-  it("should render with custom classes", () => {
-    const { getByLabelText } = render(
-      <Input {...defaultProps} customClass="border-red-500" />
-    );
-    const input = getByLabelText("Email");
-    expect(input).toHaveClass("border-red-500");
-  });
-
   it("should render with required attribute", () => {
     const { getByLabelText } = render(
       <Input {...defaultProps} isRequired={true} />

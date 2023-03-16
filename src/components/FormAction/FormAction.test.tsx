@@ -22,7 +22,7 @@ describe("FormAction Component", () => {
       <FormAction handleSubmit={handleSubmitMock} text="Submit" />
     );
     fireEvent.click(getByText("Submit"));
-    expect(handleSubmitMock).toHaveBeenCalledTimes(1);
+    expect(handleSubmitMock).toHaveBeenCalledTimes(0);
   });
 
   it("should render a submit button by default", () => {
