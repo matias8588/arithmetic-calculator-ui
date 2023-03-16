@@ -1,1 +1,3 @@
 /src/components/Table/index.tsx
+/src/components/Table/@types/react-table-config.d.ts
+/package.json
