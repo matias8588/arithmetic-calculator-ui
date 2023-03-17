@@ -1,4 +1,8 @@
-export default function FormExtra() {
+export default function FormExtra({
+  accountCreation,
+}: {
+  accountCreation: boolean;
+}) {
   return (
     <div className="flex items-center justify-between ">
       <div className="flex items-center">
@@ -15,6 +19,16 @@ export default function FormExtra() {
           Remember me
         </label>
       </div>
+      {!accountCreation && (
+        <div className="flex items-center">
+          <label
+            htmlFor="sign-up"
+            className="ml-auto block text-sm flex-end text-sky-700"
+          >
+            <a href="/sign-up">Sign up</a>
+          </label>
+        </div>
+      )}
     </div>
   );
 }
