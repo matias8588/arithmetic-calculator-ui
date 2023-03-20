@@ -1,116 +1,79 @@
-import React from "react";
-import Table, {
-  AvatarCell,
-  SelectColumnFilter,
-  StatusPill,
-} from "../../components/Table";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import Table, { StatusPill } from "../../components/Table";
+import { useDispatch, useSelector } from "react-redux";
+import { userRecord } from "../../features/record/records.Slices";
+import { record } from "../../api/record";
+import { ReactComponent as Trash } from "../../assets/trash.svg";
 
 const Balance = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: any) => state.auth);
+  const { dataRecord } = useSelector((state: any) => state.records);
+  const [deleted, setDeleted] = useState<boolean>(false);
+
+  const getRecordUser = async () => {
+    const records = (await record.UserRecord(`record/${user?.recordId}`)) || [];
+    dispatch(userRecord(records));
+  };
+
+  useEffect(() => {
+    getRecordUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleted]);
+
   const getData = () => {
-    const data = [
-      {
-        name: "Jane Cooper",
-        email: "jane.cooper@example.com",
-        title: "Regional Paradigm Technician",
-        department: "Optimization",
-        status: "Active",
-        role: "Admin",
-        age: 27,
-        imgUrl:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-      },
-      {
-        name: "Cody Fisher",
-        email: "cody.fisher@example.com",
-        title: "Product Directives Officer",
-        department: "Intranet",
-        status: "Inactive",
-        role: "Owner",
-        age: 43,
-        imgUrl:
-          "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-      },
-      {
-        name: "Esther Howard",
-        email: "esther.howard@example.com",
-        title: "Forward Response Developer",
-        department: "Directives",
-        status: "Active",
-        role: "Member",
-        age: 32,
-        imgUrl:
-          "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-      },
-      {
-        name: "Jenny Wilson",
-        email: "jenny.wilson@example.com",
-        title: "Central Security Manager",
-        department: "Program",
-        status: "Offline",
-        role: "Member",
-        age: 29,
-        imgUrl:
-          "https://images.unsplash.com/photo-1498551172505-8ee7ad69f235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-      },
-      {
-        name: "Kristin Watson",
-        email: "kristin.watson@example.com",
-        title: "Lean Implementation Liaison",
-        department: "Mobility",
-        status: "Inactive",
-        role: "Admin",
-        age: 36,
-        imgUrl:
-          "https://images.unsplash.com/photo-1532417344469-368f9ae6d187?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-      },
-      {
-        name: "Cameron Williamson",
-        email: "cameron.williamson@example.com",
-        title: "Internal Applications Engineer",
-        department: "Security",
-        status: "Active",
-        role: "Member",
-        age: 24,
-        imgUrl:
-          "https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-      },
-    ];
-    return [...data, ...data, ...data];
+    const data = dataRecord?.operation || [];
+    return [...data];
+  };
+
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setDeleted(true);
+        record.RemoveOperation(`operations/${id}`);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
   };
 
   const columns = React.useMemo(
     () => [
       {
-        Header: "Name",
-        accessor: "name",
-        Cell: AvatarCell,
-        imgAccessor: "imgUrl",
-        emailAccessor: "email",
+        Header: "Type",
+        accessor: "type",
       },
       {
-        Header: "Title",
-        accessor: "title",
+        Header: "Cost",
+        accessor: "cost",
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "Response",
+        accessor: "operationResponse",
         Cell: StatusPill,
       },
       {
-        Header: "Age",
-        accessor: "age",
-      },
-      {
-        Header: "Role",
-        accessor: "role",
-        Filter: SelectColumnFilter, // new
-        filter: "includes",
+        Header: "Action",
+        Cell: ({ cell }: any) => (
+          <button onClick={() => handleDelete(cell?.row?.original?.id)}>
+            <Trash className="trash" />
+          </button>
+        ),
       },
     ],
     []
   );
 
-  const data = React.useMemo(() => getData(), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const data = React.useMemo(() => getData(), [dataRecord]);
 
   return (
     <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

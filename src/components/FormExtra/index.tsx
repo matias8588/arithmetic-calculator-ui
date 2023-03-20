@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function FormExtra({
   accountCreation,
 }: {
@@ -19,13 +21,22 @@ export default function FormExtra({
           Remember me
         </label>
       </div>
-      {!accountCreation && (
+      {!accountCreation ? (
         <div className="flex items-center">
           <label
             htmlFor="sign-up"
             className="ml-auto block text-sm flex-end text-sky-700"
           >
-            <a href="/sign-up">Sign up</a>
+            <Link to="/sign-up">Sign up</Link>
+          </label>
+        </div>
+      ) : (
+        <div className="flex items-center">
+          <label
+            htmlFor="sign-up"
+            className="ml-auto block text-sm flex-end text-sky-700"
+          >
+            <Link to="/">Sign in</Link>
           </label>
         </div>
       )}

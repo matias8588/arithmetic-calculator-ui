@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { newOperation } from "../../api/operation";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 interface INewOperationFormProps {
   balance: number;
@@ -8,8 +11,9 @@ interface INewOperationFormProps {
 const NewOperationForm = ({ balance, setBalance }: INewOperationFormProps) => {
   const [num1, setNum1] = useState("");
   const [num2, setNum2] = useState("");
-  const [operation, setOperation] = useState("+");
-  const [cost, setCost] = useState(1);
+  const [operation, setOperation] = useState("addition");
+  const [cost, setCost] = useState(100);
+  const navigate = useNavigate();
 
   const handleNum1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNum1(event.target.value);
@@ -24,16 +28,17 @@ const NewOperationForm = ({ balance, setBalance }: INewOperationFormProps) => {
   ) => {
     setOperation(event.target.value);
     switch (event.target.value) {
-      case "+":
-      case "-":
-        setCost(1);
+      case "addition":
+      case "subtraction":
+        setCost(100);
         break;
-      case "*":
-      case "/":
-        setCost(2);
+      case "multiplication":
+      case "division":
+        setCost(200);
         break;
-      case "sqrt":
-        setCost(3);
+      case "square_root":
+      case "random_string":
+        setCost(300);
         break;
       default:
         setCost(0);
@@ -42,49 +47,73 @@ const NewOperationForm = ({ balance, setBalance }: INewOperationFormProps) => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
-    // if (balance >= cost) {
-    //   try {
-    //     const response = await axios.post('/calculator', { num1: Number(num1), num2: Number(num2), operation });
-    //     setBalance(balance - cost);
-    //     alert(`Result: ${response.data.result}`);
-    //   } catch (error) {
-    //     alert(`Error: ${error.response.data}`);
-    //   }
-    // } else {
-    //   alert('Insufficient balance');
-    // }
-    console.log("Submitted");
+    event.preventDefault();
+    const newData = {
+      numberA: num1,
+      numberB: num2,
+      cost,
+      type: operation,
+    };
+    try {
+      const response = await newOperation.NewOperation("/operations", newData);
+      if (response.error) {
+        throw new Error(response.message);
+      }
+      if (response) {
+        Swal.fire(`The answer is ${response?.operationResponse}`).then(
+          (result) => {
+            if (result.isConfirmed) {
+              setBalance(cost);
+              navigate("/balance");
+            }
+          }
+        );
+      }
+    } catch (error) {
+      if (error) {
+        Swal.fire(`${error}`, "", "error");
+      }
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="num1">
-          Number 1
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="num1"
-          type="number"
-          placeholder="Enter number 1"
-          value={num1}
-          onChange={handleNum1Change}
-        />
+      <div>
+        <p className="block text-gray-700 font-bold mb-2">
+          your credits is {balance}
+        </p>
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="num2">
-          Number 2
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="num2"
-          type="number"
-          placeholder="Enter number 2"
-          value={num2}
-          onChange={handleNum2Change}
-        />
-      </div>
+      {operation !== "random_string" && (
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2" htmlFor="num1">
+            Number 1
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="num1"
+            type="number"
+            placeholder="Enter number 1"
+            value={num1}
+            onChange={handleNum1Change}
+          />
+        </div>
+      )}
+      {operation !== "square_root" && operation !== "random_string" && (
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2" htmlFor="num2">
+            Number 2
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="num2"
+            type="number"
+            placeholder="Enter number 2"
+            value={num2}
+            onChange={handleNum2Change}
+          />
+        </div>
+      )}
+
       <div className="mb-4">
         <label
           className="block text-gray-700 font-bold mb-2"
@@ -98,12 +127,12 @@ const NewOperationForm = ({ balance, setBalance }: INewOperationFormProps) => {
           value={operation}
           onChange={handleOperationChange}
         >
-          <option value="+">Addition (+)</option>
-          <option value="-">Subtraction (-)</option>
-          <option value="*">Multiplication (*)</option>
-          <option value="/">Division (/)</option>
-          <option value="sqrt">Square Root (√)</option>
-          <option value="rand">Random String (rand)</option>
+          <option value="addition">Addition (+)</option>
+          <option value="subtraction">Subtraction (-)</option>
+          <option value="multiplication">Multiplication (*)</option>
+          <option value="division">Division (/)</option>
+          <option value="square_root">Square Root (√)</option>
+          <option value="random_string">Random String (rand)</option>
         </select>
       </div>
       <div className="mb-4">

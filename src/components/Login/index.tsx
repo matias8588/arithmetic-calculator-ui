@@ -3,6 +3,12 @@ import { loginFields } from "../../helpers/constants";
 import FormAction from "../FormAction";
 import FormExtra from "../FormExtra";
 import Input from "../Input";
+import { auth } from "../../api/auth";
+import { loginUser } from "../../features/auth/auth.Slices";
+import { useDispatch } from "react-redux";
+import { setItems } from "../../helpers/localStorage";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const fields = loginFields;
 let fieldsState: { [x: string]: string } = {};
@@ -10,14 +16,34 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Login() {
   const [loginState, setLoginState] = useState(fieldsState);
-
+  const dispatch = useDispatch();
   const handleChange = (e: { target: { id: string; value: string } }) => {
     setLoginState({ ...loginState, [e.target.id]: e.target.value });
   };
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    authenticateUser();
+    try {
+      const response = await auth.UserLogin("auth/login", loginState);
+      if (response.error) {
+        throw new Error(response.message);
+      }
+      dispatch(loginUser(response));
+      authenticateUser();
+      setItems("token", response.token.token);
+      setLoginState(fieldsState);
+      navigate("/balance");
+    } catch (error) {
+      if (error) {
+        Swal.fire({
+          title: `${error}`,
+          showConfirmButton: false,
+          icon: "error",
+          timer: 2000,
+        });
+      }
+    }
   };
 
   const authenticateUser = () => {

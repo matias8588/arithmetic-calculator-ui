@@ -2,7 +2,7 @@ const loginFields = [
   {
     labelText: "Email address",
     labelFor: "email-address",
-    id: "email-address",
+    id: "email",
     name: "email",
     type: "email",
     autoComplete: "email",
@@ -23,24 +23,24 @@ const loginFields = [
 
 const signUpFields = [
   {
-    labelText: "Name",
-    labelFor: "name",
-    id: "name",
-    name: "name",
-    type: "text",
-    autoComplete: "name",
-    isRequired: true,
-    placeholder: "Name",
-  },
-  {
     labelText: "Email address",
     labelFor: "email-address",
-    id: "email-address",
+    id: "email",
     name: "email",
     type: "email",
     autoComplete: "email",
     isRequired: true,
     placeholder: "Email address",
+  },
+  {
+    labelText: "Amount",
+    labelFor: "amount",
+    id: "amount",
+    name: "amount",
+    type: "text",
+    autoComplete: "amount",
+    isRequired: true,
+    placeholder: "amount",
   },
   {
     labelText: "Password",

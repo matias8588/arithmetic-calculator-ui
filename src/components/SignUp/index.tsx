@@ -3,6 +3,9 @@ import { signUpFields } from "../../helpers/constants";
 import FormAction from "../FormAction";
 import FormExtra from "../FormExtra";
 import Input from "../Input";
+import { auth } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const fields = signUpFields;
 let fieldsState: { [x: string]: string } = {};
@@ -10,13 +13,34 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function SignUp() {
   const [SignUpState, setSignUpState] = useState(fieldsState);
+  const navigate = useNavigate();
 
   const handleChange = (e: { target: { id: string; value: string } }) => {
     setSignUpState({ ...SignUpState, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    try {
+      const response = await auth.SignUp("users", SignUpState);
+      if (response.error) {
+        throw new Error(response.message);
+      }
+      authenticateUser();
+      setSignUpState(fieldsState);
+      if (response) {
+        navigate("/");
+      }
+    } catch (error) {
+      if (error) {
+        Swal.fire({
+          title: `${error}`,
+          showConfirmButton: false,
+          icon: "error",
+          timer: 2000,
+        });
+      }
+    }
     authenticateUser();
   };
 

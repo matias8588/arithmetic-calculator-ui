@@ -17,6 +17,7 @@ import {
 import { Button, PageButton } from "../Button";
 import { classNames } from "../../helpers/utils";
 import { SortIcon, SortUpIcon, SortDownIcon } from "../../helpers/icons";
+import { useNavigate } from "react-router-dom";
 
 interface IGlobalFilter {
   preGlobalFilteredRows: any;
@@ -172,10 +173,11 @@ function Table({ columns, data }: ITable) {
     useSortBy,
     usePagination
   );
+  const navigate = useNavigate();
 
   return (
     <>
-      <div className="sm:flex sm:gap-x-2">
+      <div className="flex flex-row justify-between sm:gap-x-2">
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
           globalFilter={state.globalFilter}
@@ -190,6 +192,13 @@ function Table({ columns, data }: ITable) {
             ) : null
           )
         )}
+
+        <button
+          onClick={() => navigate("/new-operation")}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded focus:outline-none focus:shadow-outline"
+        >
+          ADD
+        </button>
       </div>
       {/* table */}
       <div className="mt-4 flex flex-col">
@@ -242,43 +251,23 @@ function Table({ columns, data }: ITable) {
                     prepareRow(row);
                     return (
                       <tr {...row.getRowProps()}>
-                        {row.cells.map(
-                          (cell: {
-                            getCellProps: () => JSX.IntrinsicAttributes &
-                              React.ClassAttributes<HTMLTableDataCellElement> &
-                              React.TdHTMLAttributes<HTMLTableDataCellElement>;
-                            column: { Cell: { name: string } };
-                            render: (
-                              arg0: string
-                            ) =>
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | React.ReactFragment
-                              | null
-                              | undefined;
-                          }) => {
-                            return (
-                              <td
-                                {...cell.getCellProps()}
-                                className="px-6 py-4 whitespace-nowrap"
-                                role="cell"
-                              >
-                                {cell.column.Cell.name === "defaultRenderer" ? (
-                                  <div className="text-sm text-gray-500">
-                                    {cell.render("Cell")}
-                                  </div>
-                                ) : (
-                                  cell.render("Cell")
-                                )}
-                              </td>
-                            );
-                          }
-                        )}
+                        {row.cells.map((cell: any) => {
+                          return (
+                            <td
+                              {...cell.getCellProps()}
+                              className="px-6 py-4 whitespace-nowrap"
+                              role="cell"
+                            >
+                              {cell.column.Cell.name === "defaultRenderer" ? (
+                                <div className="text-sm text-gray-500">
+                                  {cell.render("Cell")}
+                                </div>
+                              ) : (
+                                cell.render("Cell")
+                              )}
+                            </td>
+                          );
+                        })}
                       </tr>
                     );
                   })}
