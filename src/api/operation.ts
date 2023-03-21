@@ -5,7 +5,7 @@ const BASE_URL = process.env.REACT_APP_API_URL;
 export const newOperation = {
   NewOperation: async function (endpoint: string, operation: any) {
     try {
-      const response = await window.fetch(`${BASE_URL}${endpoint}`, {
+      const response = await window.fetch(`${BASE_URL}/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
