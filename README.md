@@ -1,46 +1,46 @@
-# Getting Started with Create React App
+# Calculator Web Platform
+This project is a Web platform that provides simple calculator functionality (addition, subtraction, multiplication, division, square root, and a random string generation) with separate costs per request. Each user has a starting credit/balance that will be deducted for each request. If the user's balance is not enough to cover the request cost, the request will be denied. The UI includes login, new operation request form, user records table with pagination, sorting, filtering, and delete option.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Instructions 🚀
 
-## Available Scripts
+To use this project, follow these steps:
 
-In the project directory, you can run:
+Clone this repository using the following command:
 
-### `npm start`
+```
+git clone https://github.com/your-username/calculator-web-platform.git
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Install dependencies using the following command:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+npm install
+```
 
-### `npm test`
+Start the development server using the following command:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm run start
+```
+Open your browser and go to http://localhost:3000 to access the application.
 
-### `npm run build`
+### How to Use 💡
+Login using your username and password.
+On the "New Operation" page, fill in the fields for the operation you want to perform and click the "Submit" button.
+On the "User Records" page, you can view all your operation records, search for a specific record, sort the table, change the number of records displayed per page, and delete a record.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Deploy 📦
+I've decided to use Vercel because it has a simple Installation and Configuration flow. Vercel allows us that on every commit into `main` a new deploy runs upgrading the Site page.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Live demo on: <https://arithmetic-calculator-ptaa75fvy-matias8588.vercel.app/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Build-with 🛠️
+React
+TypeScript
+Redux
+Tailwind
+Axios
 
-### `npm run eject`
+## Author 👨🏻‍💻
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Matias Cejas** - [matias8588](https://github.com/matias8588)
