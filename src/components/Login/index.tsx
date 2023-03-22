@@ -30,7 +30,6 @@ export default function Login() {
         throw new Error(response.message);
       }
       dispatch(loginUser(response));
-      authenticateUser();
       setItems("token", response.token.token);
       setLoginState(fieldsState);
       navigate("/balance");
@@ -44,10 +43,6 @@ export default function Login() {
         });
       }
     }
-  };
-
-  const authenticateUser = () => {
-    console.log(loginState);
   };
 
   return (

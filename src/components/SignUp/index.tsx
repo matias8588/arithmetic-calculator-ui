@@ -29,7 +29,6 @@ export default function SignUp() {
       if (response.errors) {
         throw new Error(response.errors[0].message);
       }
-      authenticateUser();
       setSignUpState(fieldsState);
       if (response) {
         navigate("/");
@@ -45,10 +44,6 @@ export default function SignUp() {
       }
     }
     authenticateUser();
-  };
-
-  const authenticateUser = () => {
-    console.log(SignUpState);
   };
 
   return (
