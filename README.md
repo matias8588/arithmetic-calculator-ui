@@ -32,7 +32,7 @@ On the "User Records" page, you can view all your operation records, search for 
 ## Deploy 📦
 I've decided to use Vercel because it has a simple Installation and Configuration flow. Vercel allows us that on every commit into `main` a new deploy runs upgrading the Site page.
 
-- Live demo on: <https://arithmetic-calculator-3h05ae7ma-matias8588.vercel.app/>
+- Live demo on: <https://arithmetic-calculator-j5qxrhb9u-matias8588.vercel.app/>
 
 ## Build-with 🛠️
 React
