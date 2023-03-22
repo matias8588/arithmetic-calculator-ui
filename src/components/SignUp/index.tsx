@@ -26,6 +26,9 @@ export default function SignUp() {
       if (response.error) {
         throw new Error(response.message);
       }
+      if (response.errors) {
+        throw new Error(response.errors[0].message);
+      }
       authenticateUser();
       setSignUpState(fieldsState);
       if (response) {

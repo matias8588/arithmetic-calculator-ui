@@ -40,11 +40,16 @@ const Balance = () => {
       if (result.isConfirmed) {
         setDeleted(true);
         record.RemoveOperation(`operations/${id}`);
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     });
   };
-
   const columns = React.useMemo(
     () => [
       {

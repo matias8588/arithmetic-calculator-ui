@@ -83,6 +83,28 @@ const NewOperationForm = ({ balance, setBalance }: INewOperationFormProps) => {
           your credits is {balance}
         </p>
       </div>
+
+      <div className="mb-4">
+        <label
+          className="block text-gray-700 font-bold mb-2"
+          htmlFor="operation"
+        >
+          Operation
+        </label>
+        <select
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="operation"
+          value={operation}
+          onChange={handleOperationChange}
+        >
+          <option value="addition">Addition (+)</option>
+          <option value="subtraction">Subtraction (-)</option>
+          <option value="multiplication">Multiplication (*)</option>
+          <option value="division">Division (/)</option>
+          <option value="square_root">Square Root (√)</option>
+          <option value="random_string">Random String (rand)</option>
+        </select>
+      </div>
       {operation !== "random_string" && (
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="num1">
@@ -113,28 +135,6 @@ const NewOperationForm = ({ balance, setBalance }: INewOperationFormProps) => {
           />
         </div>
       )}
-
-      <div className="mb-4">
-        <label
-          className="block text-gray-700 font-bold mb-2"
-          htmlFor="operation"
-        >
-          Operation
-        </label>
-        <select
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="operation"
-          value={operation}
-          onChange={handleOperationChange}
-        >
-          <option value="addition">Addition (+)</option>
-          <option value="subtraction">Subtraction (-)</option>
-          <option value="multiplication">Multiplication (*)</option>
-          <option value="division">Division (/)</option>
-          <option value="square_root">Square Root (√)</option>
-          <option value="random_string">Random String (rand)</option>
-        </select>
-      </div>
       <div className="mb-4">
         <p className="block text-gray-700 font-bold mb-2">
           Cost per request: {cost} credit(s)

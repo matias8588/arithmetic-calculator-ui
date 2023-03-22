@@ -1,4 +1,5 @@
 import { getItem } from "../helpers/localStorage";
+import { defaultHeader } from "./api.helpers";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -8,7 +9,7 @@ export const record = {
       const response = await window.fetch(`${BASE_URL}/${endpoint}`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json;charset=utf-8",
+          ...defaultHeader,
           Authorization: `Bearer ${getItem("token")}` || "",
         },
       });
@@ -22,7 +23,7 @@ export const record = {
       const response = await window.fetch(`${BASE_URL}/${endpoint}`, {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json;charset=utf-8",
+          ...defaultHeader,
           Authorization: `Bearer ${getItem("token")}` || "",
         },
       });
